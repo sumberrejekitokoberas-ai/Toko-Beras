@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png" />
+    <title>Toko Beras Sumber Rejeki</title>
+    <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Toko Beras Sumber Rejeki</h1>
+                <p>Jalan Delanggu–Polanharjo</p>
+            </div>
+            <div class="header-right">
+                <nav>
+                    <ul>
+                        <li><a href="#" onclick="showPage('beranda')" class="nav-link active">Beranda</a></li>
+                        <li><a href="#" onclick="showPage('informasi')" class="nav-link">Informasi</a></li>
+                        <li><a href="#" onclick="showPage('catalog')" class="nav-link">Catalog</a></li>
+                        </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="beranda" class="page active">
+            <div class="hero-slider">
+                <div class="slide active">
+                    <div class="slide-content">
+                        <h2>Selamat Datang di Toko Beras Sumber Rejeki</h2>
+                        <p>Menyediakan beras berkualitas tinggi untuk kebutuhan sehari-hari Anda</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <h2>Layanan Giling Padi Terpercaya</h2>
+                        <p>Hasil gilingan berkualitas dengan harga yang terjangkau</p>
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <h2>Berbagai Jenis Beras Tersedia</h2>
+                        <p>Bramo, C4, Srinuk/Mentik, dan Katul dengan kualitas terbaik</p>
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <button class="nav-btn prev" onclick="prevSlide()">❮</button>
+                    <button class="nav-btn next" onclick="nextSlide()">❯</button>
+                </div>
+                <div class="slider-dots">
+                    <span class="dot active" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+            </div>
+            <div class="store-status-beranda">
+                <span class="status-label">Toko :</span>
+                <span id="store-status" class="status-value open">Buka</span>
+            </div>
+            <div class="schedule-section">
+                <h3>Jadwal Buka Toko</h3>
+                <div class="schedule-grid">
+                    <div class="schedule-card"><h4>Senin</h4><p>07.00 – 17.00 WIB</p></div>
+                    <div class="schedule-card"><h4>Selasa</h4><p>07.00 – 17.00 WIB</p></div>
+                    <div class="schedule-card"><h4>Rabu</h4><p>07.00 – 17.00 WIB</p></div>
+                    <div class="schedule-card"><h4>Kamis</h4><p>07.00 – 16.30 WIB</p></div>
+                    <div class="schedule-card"><h4>Jum'at</h4><p>07.00 – 17.00 WIB</p></div>
+                    <div class="schedule-card"><h4>Sabtu</h4><p>07.00 – 16.30 WIB</p></div>
+                    <div class="schedule-card special"><h4>Minggu</h4><p>08.00 – 16.00 WIB</p><span class="note">(Tidak melayani gilingan)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="informasi" class="page">
+            <div class="info-header">
+                <div class="store-status-info">
+                    <span class="status-label">Toko :</span>
+                    <span id="store-status-info" class="status-value open">Buka</span>
+                    </div>
+            </div>
+            <div class="grinding-section">
+                <h3>Pengambilan Gilingan</h3>
+                <div class="table-container">
+                    <table id="grinding-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Client</th>
+                                <th>Alamat Client</th>
+                                <th><div class="two-line-header"><span class="line-top">Jumlah</span><span class="line-bottom">Gabah (kg)</span></div></th>
+                                <th>Biaya</th>
+                                <th>Keterangan</th>
+                                <th>Penerima</th>
+                                <th>Status Bayar</th>
+                                <th>Pengantaran</th>
+                                <th>Pengambilan</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+                <div class="contact-info">
+                    <p>More info: <a href="#" onclick="openWhatsApp()">wa.me/6285711140816</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="catalog" class="page">
+            <h2>Katalog Produk</h2>
+            <div class="products-grid">
+                <div class="product-card" data-product="bramo">
+                    <h3>Bramo</h3>
+                    <p class="price">Rp 15.500/kg</p>
+                    <p class="cost">Harga Beli: Rp 14.500/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-bramo" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('bramo')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="c4">
+                    <h3>C4</h3>
+                    <p class="price">Rp 14.500/kg</p>
+                    <p class="cost">Harga Beli: Rp 14.000/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-c4" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('c4')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="srinuk">
+                    <h3>Srinuk/Mentik</h3>
+                    <p class="price">Rp 16.000/kg</p>
+                    <p class="cost">Harga Beli: Rp 15.000/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-srinuk" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('srinuk')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="katul">
+                    <h3>Katul</h3>
+                    <p class="price">Rp 4.500/kg</p>
+                    <p class="cost">Harga Beli: Rp 0/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-katul" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('katul')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="giling">
+                    <h3>Ongkos Giling Padi</h3>
+                    <p class="price">Rp 400/kg</p>
+                    <p class="cost">Jasa Giling</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-giling" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('giling')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart-summary">
+                <h3>Keranjang Belanja</h3>
+                <div id="cart-items"></div>
+                <div class="cart-total">
+                    <strong>Total: Rp <span id="cart-total">0</span></strong>
+                </div>
+                <button id="checkout-btn" onclick="processCheckout()">Proses Pesanan</button>
+            </div>
+        </div>
+
+        </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Toko Beras Sumber Rejeki. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Perbaikan untuk `currentSlide` yang dipanggil oleh HTML
+        window.currentSlide = function(n) {
+            if (typeof window.currentSlideFunc === 'function') {
+                window.currentSlideFunc(n);
+            }
+        }
+    </script>
+
+    <!-- ===== BLOK YANG DIPERBAIKI ===== -->
+    <!-- Firebase SDK versi 8 (Kompatibel dengan kode kita) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <!-- Config Firebase Anda -->
+    <script src="./firebase-config.js"></script>
+    <!-- ===== AKHIR BLOK ===== -->
+
+    <!-- Script Publik Anda (setelah Firebase) -->
+    <script src="./script.js"></script>
+</body>
+</html>
