@@ -1,177 +1,379 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Toko Beras Sumber Rejeki</title>
-    <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-    <div id="admin-login-modal" class="modal" style="display: block;">
-        <div class="modal-content">
-            <h3>Login Admin</h3>
-            <form id="admin-login-form">
-                <div class="form-group">
-                    <label for="admin-email">Email:</label>
-                    <input type="email" id="admin-email" required value="sumberrejekitokoberas@gmail.com">
-                </div>
-                <div class="form-group">
-                    <label for="admin-password">Password:</label>
-                    <input type="password" id="admin-password" required>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    </div>
 
-    <div id="admin-dashboard" style="display: none;">
-        <header>
-            <div class="container">
-                <div class="logo">
-                    <h1>Admin Dashboard</h1>
-                    <p>Toko Beras Sumber Rejeki</p>
-                </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png" />
+    <title>Admin Panel - Toko Beras Sumber Rejeki</title>
+    <link rel="stylesheet" href="./admin.css" />
+</head>
+
+<body>
+    <script>
+        if (localStorage.getItem('adminSession') !== 'true') {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Toko Beras Sumber Rejeki (Admin)</h1>
+                <p>Jalan Delanggu–Polanharjo</p>
+            </div>
+            <div class="header-right">
                 <nav>
                     <ul>
-                        <li><a href="index.html" target="_blank">Lihat Website</a></li>
-                        <li><a href="#" class="nav-link" onclick="showAdminPage('informasi')">Manajemen Gilingan</a></li>
-                        <li><a href="#" class="nav-link" onclick="showAdminPage('checkout')">Laporan & Checkout</a></li>
-                        <li><a href="#" id="admin-logout-btn">Logout</a></li>
+                        <li><a href="#" onclick="showPage('beranda')" class="nav-link active">Beranda</a></li>
+                        <li><a href="#" onclick="showPage('informasi')" class="nav-link">Informasi</a></li>
+                        <li><a href="#" onclick="showPage('catalog')" class="nav-link">Catalog</a></li>
+                        <li><a href="#" onclick="showPage('checkout')" class="nav-link">Checkout</a></li>
+                        <li><a href="#" onclick="logoutAdmin()" class="nav-link admin-link">Logout</a></li>
                     </ul>
                 </nav>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <main class="container">
-            <div id="informasi" class="page">
-                <div class="info-header">
-                    <div class="store-status-info">
-                        <span class="status-label">Toko :</span>
-                        <span id="store-status-info" class="status-value open">Buka</span>
-                        <button id="change-status-btn" class="change-status-btn">Ubah Status</button>
+    <main class="container">
+        <div id="beranda" class="page active">
+            <div class="hero-slider">
+                <div class="slide active">
+                    <div class="slide-content">
+                        <h2>Selamat Datang di Toko Beras Sumber Rejeki</h2>
+                        <p>Menyediakan beras berkualitas tinggi untuk kebutuhan sehari-hari Anda</p>
                     </div>
                 </div>
-                <div class="grinding-section">
-                    <h3>Data Pengambilan Gilingan</h3>
-                    <div class="admin-controls">
-                        <button onclick="showAddGrindingForm()" class="add-btn">Tambah Data Gilingan</button>
+                <div class="slide">
+                    <div class="slide-content">
+                        <h2>Layanan Giling Padi Terpercaya</h2>
+                        <p>Hasil gilingan berkualitas dengan harga yang terjangkau</p>
                     </div>
-                    <div class="table-container">
-                        <table id="grinding-table-admin">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Client</th>
-                                    <th>Alamat</th>
-                                    <th>Gabah (kg)</th>
-                                    <th>Biaya</th>
-                                    <th>Keterangan</th>
-                                    <th>Pengantaran</th>
-                                    <th>Pengambilan</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <h2>Berbagai Jenis Beras Tersedia</h2>
+                        <p>Bramo, C4, Srinuk/Mentik, dan Katul dengan kualitas terbaik</p>
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <button class="nav-btn prev" onclick="prevSlide()">❮</button>
+                    <button class="nav-btn next" onclick="nextSlide()">❯</button>
+                </div>
+                <div class="slider-dots">
+                    <span class="dot active" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                </div>
+            </div>
+
+            <div class="store-status-beranda">
+                <span class="status-label">Toko :</span>
+                <span id="store-status" class="status-value open">Buka</span>
+            </div>
+
+            <div class="schedule-section">
+                <h3>Jadwal Buka Toko</h3>
+                <div class="schedule-grid">
+                    <div class="schedule-card">
+                        <h4>Senin</h4>
+                        <p>07.00 – 17.00 WIB</p>
+                    </div>
+                    <div class="schedule-card">
+                        <h4>Selasa</h4>
+                        <p>07.00 – 17.00 WIB</p>
+                    </div>
+                    <div class="schedule-card">
+                        <h4>Rabu</h4>
+                        <p>07.00 – 17.00 WIB</p>
+                    </div>
+                    <div class="schedule-card">
+                        <h4>Kamis</h4>
+                        <p>07.00 – 16.30 WIB</p>
+                    </div>
+                    <div class="schedule-card">
+                        <h4>Jum'at</h4>
+                        <p>07.00 – 17.00 WIB</p>
+                    </div>
+                    <div class="schedule-card">
+                        <h4>Sabtu</h4>
+                        <p>07.00 – 16.30 WIB</p>
+                    </div>
+                    <div class="schedule-card special">
+                        <h4>Minggu</h4>
+                        <p>08.00 – 16.00 WIB</p>
+                        <span class="note">(Tidak melayani gilingan)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="informasi" class="page">
+            <div class="info-header">
+                <div class="store-status-info">
+                    <span class="status-label">Toko :</span>
+                    <span id="store-status-info" class="status-value open">Buka</span>
+                    <button id="change-status-btn" class="change-status-btn" onclick="changeStoreStatus()">
+                        Ubah Status
+                    </button>
+                </div>
+            </div>
+
+            <div class="grinding-section">
+                <h3>Pengambilan Gilingan</h3>
+                <div class="admin-controls" id="admin-controls">
+                    <button onclick="showAddGrindingForm()" class="add-btn">Tambah Data Gilingan</button>
+                </div>
+
+                <div class="table-container">
+                    <table id="grinding-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Nama Client</th>
+                                <th>Alamat Client</th>
+                                <th><div class="two-line-header"><span class="line-top">Jumlah</span><span class="line-bottom">Gabah (kg)</span></div></th>
+                                <th>Biaya</th>
+                                <th>Keterangan</th>
+                                <th>Penerima</th>
+                                <th>Status Bayar</th>
+                                <th>Pengantaran</th>
+                                <th>Pengambilan</th>
+                                <th class="admin-only">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="contact-info">
+                    <p>More info: <a href="#" onclick="openWhatsApp()">wa.me/6285711140816</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div id="catalog" class="page">
+            <h2>Katalog Produk</h2>
+            <div class="products-grid">
+                <div class="product-card" data-product="bramo">
+                    <h3>Bramo</h3>
+                    <p class="price">Rp 15.500/kg</p>
+                    <p class="cost">Harga Beli: Rp 14.500/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-bramo" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('bramo')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="c4">
+                    <h3>C4</h3>
+                    <p class="price">Rp 14.500/kg</p>
+                    <p class="cost">Harga Beli: Rp 14.000/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-c4" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('c4')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="srinuk">
+                    <h3>Srinuk/Mentik</h3>
+                    <p class="price">Rp 16.000/kg</p>
+                    <p class="cost">Harga Beli: Rp 15.000/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-srinuk" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('srinuk')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="katul">
+                    <h3>Katul</h3>
+                    <p class="price">Rp 4.500/kg</p>
+                    <p class="cost">Harga Beli: Rp 0/kg</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-katul" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('katul')">Tambah ke Keranjang</button>
+                    </div>
+                </div>
+                <div class="product-card" data-product="giling">
+                    <h3>Ongkos Giling Padi</h3>
+                    <p class="price">Rp 400/kg</p>
+                    <p class="cost">Jasa Giling</p>
+                    <div class="quantity-control">
+                        <label>Jumlah (kg):</label>
+                        <input type="number" id="qty-giling" min="0" step="0.5" value="0">
+                        <button onclick="addToCart('giling')">Tambah ke Keranjang</button>
                     </div>
                 </div>
             </div>
 
-            <div id="checkout" class="page">
-                <h2>Laporan Penjualan</h2>
-                <div class="checkout-section">
-                    <h3>Riwayat Transaksi Hari Ini</h3>
-                    <div class="table-container">
-                        <table id="today-transactions">
-                            <thead>
-                                <tr>
-                                    <th>Waktu</th>
-                                    <th>Produk</th>
-                                    <th>Jumlah (kg)</th>
-                                    <th>Harga Jual</th>
-                                    <th>Total</th>
-                                    <th>Profit</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                    <div class="daily-summary">
-                        <h4>Ringkasan Hari Ini</h4>
-                        <p>Total Penjualan: Rp <span id="daily-revenue">0</span></p>
-                        <p>Total Profit: Rp <span id="daily-profit">0</span></p>
-                    </div>
+            <div class="cart-summary">
+                <h3>Keranjang Belanja</h3>
+                <div id="cart-items"></div>
+                <div class="cart-total">
+                    <strong>Total: Rp <span id="cart-total">0</span></strong>
                 </div>
-                <div class="daily-recap-section">
-                    <h3>Rekap Harian</h3>
-                    <div class="date-selector">
-                        <label for="date-select">Pilih Tanggal:</label>
-                        <input type="date" id="date-select">
-                    </div>
-                    <div class="daily-recap-content">
-                         <div class="recap-summary">
-                            <h4>Ringkasan Tanggal <span id="selected-date">-</span></h4>
-                            <div class="summary-cards">
-                                <div class="summary-card">
-                                    <h5>Total Penjualan</h5>
-                                    <p class="amount">Rp <span id="recap-revenue">0</span></p>
-                                </div>
-                                <div class="summary-card">
-                                    <h5>Total Profit</h5>
-                                    <p class="amount profit">Rp <span id="recap-profit">0</span></p>
-                                </div>
-                                <div class="summary-card">
-                                    <h5>Jumlah Transaksi</h5>
-                                    <p class="amount">x<span id="recap-transactions">0</span></p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-breakdown">
-                            <h4>Breakdown per Produk</h4>
-                            <div class="table-container">
-                                <table id="daily-breakdown">
-                                    <thead>
-                                        <tr>
-                                            <th>Produk</th>
-                                            <th>Total Qty (kg)</th>
-                                            <th>Total Penjualan</th>
-                                            <th>Total Profit</th>
-                                            <th>Avg Harga/kg</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                <button id="checkout-btn" onclick="processCheckout()">Checkout</button>
+            </div>
+        </div>
+
+        <div id="checkout" class="page">
+            <h2>Checkout & Laporan</h2>
+
+            <div class="checkout-section">
+                <h3>Riwayat Transaksi Hari Ini</h3>
+                <div class="table-container">
+                    <table id="today-transactions">
+                        <thead>
+                            <tr>
+                                <th>Waktu</th>
+                                <th>Produk</th>
+                                <th>Jumlah (kg)</th>
+                                <th>Harga Jual</th>
+                                <th>Total</th>
+                                <th>Profit</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
-                <div class="monthly-section">
-                    <h3>Rekap Bulanan</h3>
-                    <div class="month-selector">
-                        <label for="month-select">Pilih Bulan:</label>
-                        <select id="month-select"></select>
-                    </div>
-                    <div class="monthly-summary">
-                       <h4>Total Pendapatan Bulanan</h4>
-                        <p>Total Penjualan: Rp <span id="monthly-revenue">0</span></p>
-                        <p>Total Profit: Rp <span id="monthly-profit">0</span></p>
-                        <p>Jumlah Transaksi: <span id="monthly-transactions">0</span></p>
-                    </div>
-                </div>
-                <div class="actions">
-                    <button id="clear-today-btn">Hapus Semua Data Hari Ini</button>
-                    <button id="export-btn">Export Data</button>
+                <div class="daily-summary">
+                    <h4>Ringkasan Hari Ini</h4>
+                    <p>Total Penjualan: Rp <span id="daily-revenue">0</span></p>
+                    <p>Total Profit: Rp <span id="daily-profit">0</span></p>
                 </div>
             </div>
-        </main>
-    </div>
 
-    <div id="grinding-modal" class="modal">
+            <div class="daily-recap-section">
+                <h3>Rekap Harian</h3>
+                <div class="date-selector">
+                    <label for="date-select">Pilih Tanggal:</label>
+                    <input type="date" id="date-select" onchange="updateDailyRecap()">
+                </div>
+                <div class="daily-recap-content">
+                    <div class="recap-summary">
+                        <h4>Ringkasan Tanggal <span id="selected-date">-</span></h4>
+                        <div class="summary-cards">
+                            <div class="summary-card">
+                                <h5>Total Penjualan</h5>
+                                <p class="amount">Rp <span id="recap-revenue">0</span></p>
+                            </div>
+                            <div class="summary-card">
+                                <h5>Total Profit</h5>
+                                <p class="amount profit">Rp <span id="recap-profit">0</span></p>
+                            </div>
+                            <div class="summary-card">
+                                <h5>Jumlah Transaksi</h5>
+                                <p class="amount">x<span id="recap-transactions">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-breakdown">
+                        <h4>Breakdown per Produk</h4>
+                        <div class="table-container">
+                            <table id="daily-breakdown">
+                                <thead>
+                                    <tr>
+                                        <th>Produk</th>
+                                        <th>Total Qty (kg)</th>
+                                        <th>Total Penjualan</th>
+                                        <th>Total Profit</th>
+                                        <th>Avg Harga/kg</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="monthly-section">
+                <h3>Rekap Bulanan</h3>
+                <div class="month-selector">
+                    <label for="month-select">Pilih Bulan:</label>
+                    <select id="month-select" onchange="updateMonthlyReport()">
+                        <option value="">Pilih Bulan</option>
+                    </select>
+                </div>
+                <div class="monthly-summary">
+                    <h4>Total Pendapatan Bulanan</h4>
+                    <p>Total Penjualan: Rp <span id="monthly-revenue">0</span></p>
+                    <p>Total Profit: Rp <span id="monthly-profit">0</span></p>
+                    <p>Jumlah Transaksi: <span id="monthly-transactions">0</span></p>
+                </div>
+            </div>
+
+            <div id="expenses" class="checkout-section admin-only">
+                <h3>Pengeluaran Modal Usaha (Solar & Air)</h3>
+                <p>Pengeluaran dihitung otomatis berdasarkan jumlah gabah yang digiling (satuan Kg). Konversi: 1 Kwintal = 100 Kg → 1 unit solar (Rp 7.000); 1 Kwintal = 100 Kg → 1 unit air (Rp 6.600).</p>
+
+                <div class="date-selector" style="margin-top:10px; gap:8px; display:flex; align-items:center;">
+                    <label for="expense-date-select">Pilih Tanggal:</label>
+                    <input type="date" id="expense-date-select" onchange="updateExpenseDaily()">
+                    <button onclick="updateExpenseDaily()" class="action-btn">Refresh</button>
+                </div>
+
+                <div class="table-container" style="margin-top:12px;">
+                    <table id="today-expenses">
+                        <thead>
+                            <tr>
+                                <th>Tanggal</th>
+                                <th>Jumlah Gabah (Kg)</th>
+                                <th>Solar (Rp)</th>
+                                <th>Air (Rp)</th>
+                                <th>Total (Rp)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="daily-summary" style="margin-top:10px;">
+                    <h4>Ringkasan Pengeluaran Hari Ini</h4>
+                    <p>Total Solar: Rp <span id="expense-daily-solar">0</span></p>
+                    <p>Total Air: Rp <span id="expense-daily-air">0</span></p>
+                    <p>Total Pengeluaran: Rp <span id="expense-daily-total">0</span></p>
+                </div>
+
+                <div class="month-selector" style="margin-top:18px; display:flex; gap:8px; align-items:center;">
+                    <label for="month-select-expense">Pilih Bulan:</label>
+                    <select id="month-select-expense" onchange="updateExpenseMonthly()">
+                        <option value="">Pilih Bulan</option>
+                    </select>
+                </div>
+
+                <div class="monthly-summary" style="margin-top:12px;">
+                    <h4>Ringkasan Pengeluaran Bulanan</h4>
+                    <p>Total Gabah Bulanan: <span id="expense-monthly-gabah">0</span> Kg</p>
+                    <p>Total Solar: Rp <span id="expense-monthly-solar">0</span></p>
+                    <p>Total Air: Rp <span id="expense-monthly-air">0</span></p>
+                    <p>Total Pengeluaran Bulanan: Rp <span id="expense-monthly-total">0</span></p>
+                </div>
+
+                <div style="margin-top:14px; display:flex; gap:8px; align-items:center;">
+                    <button id="sync-expenses-btn" onclick="syncExpensesFromInfo()" class="action-btn">Sinkronkan dari Halaman Informasi</button>
+                    <span id="sync-status" style="font-size:0.95rem; color:#555; margin-left:8px;">Status: Belum sinkron</span>
+                </div>
+            </div>
+
+            <div class="actions" style="margin-top:18px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                <button class="danger" onclick="openConfirmModal('all')">Hapus Semua Data</button>
+                <button class="warning" onclick="openConfirmModal('month')">Hapus Data Bulan Ini</button>
+                <button onclick="exportData()">Export Data</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="grinding-modal" class="modal" aria-hidden="true">
         <div class="modal-content">
             <span class="close" onclick="closeGrindingModal()">&times;</span>
             <h3>Tambah Data Gilingan</h3>
-            <form id="grinding-form">
+            <form onsubmit="handleAddGrinding(event)">
                 <div class="form-group">
                     <label for="client-name">Nama Client:</label>
                     <input type="text" id="client-name" required>
@@ -184,11 +386,124 @@
                     <label for="grain-amount">Jumlah Gabah (kg):</label>
                     <input type="number" id="grain-amount" step="0.1" min="0" required>
                 </div>
+                <div class="form-group">
+                    <label for="receiver-select">Penerima:</label>
+                    <select id="receiver-select" required>
+                        <option value="">-- Pilih Penerima --</option>
+                        <option value="Mamah">Mamah</option>
+                        <option value="Lany">Lany</option>
+                        <option value="Fadhil">Fadhil</option>
+                        <option value="Fairuz">Fairuz</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status-bayar-checkbox">Status Bayar:</label>
+                    <div>
+                        <input type="checkbox" id="status-bayar-checkbox" />
+                        <label for="status-bayar-checkbox">Sudah Dibayar</label>
+                    </div>
+                </div>
                 <button type="submit">Tambah</button>
             </form>
         </div>
     </div>
+
+    <div id="confirm-delete-modal" class="modal" aria-hidden="true">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfirmModal()">&times;</span>
+            <h3 id="confirm-title">Konfirmasi Hapus Data</h3>
+            <p id="confirm-message">Apakah Anda yakin ingin menghapus data?</p>
+            <div id="confirm-details" style="margin-top:8px; font-size:0.95rem; color:#333;"></div>
+            <div style="margin-top:12px; display:flex; gap:8px; justify-content:flex-end;">
+                <button onclick="closeConfirmModal()">Batal</button>
+                <button id="confirm-delete-btn" class="danger" onclick="confirmDeleteAction()">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Toko Beras Sumber Rejeki. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ===== BLOK YANG DIPERBAIKI ===== -->
+    <!-- Firebase SDK versi 8 (Kompatibel dengan kode kita) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <!-- Config Firebase Anda -->
+    <script src="./firebase-config.js"></script>
+    <!-- ===== AKHIR BLOK ===== -->
     
-    <script type="module" src="./admin.js"></script>
+    <script>
+        (function () {
+            window._deleteMode = null;
+            window.openConfirmModal = function (mode) {
+                window._deleteMode = mode || 'all';
+                const modal = document.getElementById('confirm-delete-modal');
+                const title = document.getElementById('confirm-title');
+                const message = document.getElementById('confirm-message');
+                const details = document.getElementById('confirm-details');
+
+                if (mode === 'today') {
+                    title.textContent = 'Konfirmasi: Hapus Data Hari Ini';
+                    message.textContent = 'Semua transaksi yang terjadi pada tanggal hari ini akan dihapus permanen.';
+                    details.textContent = 'Tanggal: ' + new Date().toLocaleDateString();
+                } else if (mode === 'month') {
+                    const now = new Date();
+                    title.textContent = 'Konfirmasi: Hapus Data Bulan Ini';
+                    message.textContent = 'Semua transaksi pada bulan ini akan dihapus permanen.';
+                    details.textContent = 'Bulan: ' + (now.getMonth() + 1) + ' / ' + now.getFullYear();
+                } else {
+                    title.textContent = 'Konfirmasi: Hapus Semua Data';
+                    message.textContent = 'Semua data transaksi akan dihapus permanen.';
+                    details.textContent = '';
+                }
+                modal.style.display = 'block';
+            };
+
+            window.closeConfirmModal = function () {
+                document.getElementById('confirm-delete-modal').style.display = 'none';
+                window._deleteMode = null;
+            };
+
+            window.confirmDeleteAction = function () {
+                const mode = window._deleteMode || 'all';
+                closeConfirmModal();
+                if (mode === 'today') {
+                    if (typeof window.deleteTodayData === 'function') window.deleteTodayData();
+                } else if (mode === 'month') {
+                    if (typeof window.deleteMonthData === 'function') window.deleteMonthData();
+                } else {
+                    if (typeof window.deleteAllData === 'function') window.deleteAllData();
+                }
+            };
+
+            window.syncExpensesFromInfo = function () {
+                const statusEl = document.getElementById('sync-status');
+                statusEl.textContent = 'Status: Mencoba sinkron...';
+                if (typeof window._syncExpensesFromInfoImpl === 'function') {
+                    try {
+                        window._syncExpensesFromInfoImpl();
+                        statusEl.textContent = 'Status: Sinkron berhasil';
+                    } catch (e) {
+                        console.error(e);
+                        statusEl.textContent = 'Status: Sinkron gagal (cek console)';
+                    }
+                } else {
+                    statusEl.textContent = 'Status: Fungsi sinkronisasi tidak ditemukan.';
+                }
+            };
+            
+            // Perbaikan untuk `currentSlide` yang dipanggil oleh HTML
+            window.currentSlide = function(n) {
+                if (typeof window.currentSlideFunc === 'function') {
+                    window.currentSlideFunc(n);
+                }
+            }
+        })();
+    </script>
+    
+    <script src="./admin.js"></script>
 </body>
 </html>

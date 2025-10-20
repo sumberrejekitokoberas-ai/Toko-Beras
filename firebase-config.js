@@ -1,24 +1,23 @@
-// Import fungsi yang dibutuhkan dari Firebase SDK
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+// =============================
+// firebase-config.js
+// =============================
 
-// Konfigurasi Firebase dari akun Anda
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyDs3-6GndSNAIeGdXEATmRVzdU5hfuwmpA",
-    authDomain: "toko-beras-b6695.firebaseapp.com",
-    // PERHATIAN: Pastikan URL database Anda benar. Versi 9+ tidak menyertakannya secara default.
-    databaseURL: "https://toko-beras-b6695-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "toko-beras-b6695",
-    storageBucket: "toko-beras-b6695.appspot.com",
-    messagingSenderId: "432390656285",
-    appId: "1:432390656285:web:0fd24043a2b4323fbe51f4",
-    measurementId: "G-4W7FHBNREC"
+  apiKey: "AIzaSyD-t8rX8cTRpkWjYkAP3JTkg2afOBlLB78",
+  authDomain: "toko-beras-sumber-rejeki.firebaseapp.com",
+  projectId: "toko-beras-sumber-rejeki",
+  storageBucket: "toko-beras-sumber-rejeki.firebasestorage.app",
+  messagingSenderId: "103035125217",
+  appId: "1:103035125217:web:eaa5b49538c62b7ce8a6a0",
+  measurementId: "G-35P683LZ0N"
 };
 
-// Inisialisasi Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore(); // Ini penting untuk mengakses database
 
-// Ekspor service Firebase yang akan digunakan di file lain
-export const db = getDatabase(app);
-export const auth = getAuth(app);
+// Referensi ke koleksi (collection) di database Anda
+const settingsRef = db.collection('settings').doc('store');
+const grindingRef = db.collection('grinding');
+const transactionsRef = db.collection('transactions');
